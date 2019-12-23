@@ -1,13 +1,7 @@
-import fs from 'fs';
+import { CsvFileReader } from './CsvFileReader';
 
-const pokemons = fs
-  .readFileSync('./comp pokemon teams.csv', {
-    encoding: 'utf-8'
-  })
-  .split('\r\n')
-  .map((row: string): string[] => {
-    return row.split(',');
-  });
+const reader = new CsvFileReader('comp pokemon teams.csv');
+reader.read();
 
 let attackPokemon = 0,
   specialPokemon = 0,
@@ -16,30 +10,30 @@ let attackPokemon = 0,
   speedyPokemon = 0,
   bulkyPokemon = 0;
 
-const hpEv = 4,
-  atkEv = 5,
-  spaEv = 6,
-  defEv = 7,
-  spdEv = 8,
-  speEv = 9;
+const hpEvIndex = 4,
+  atkEvIndex = 5,
+  spaEvIndex = 6,
+  defEvIndex = 7,
+  spdEvIndex = 8,
+  speEvIndex = 9;
 
-for (let pokemon of pokemons) {
-  if (parseInt(pokemon[hpEv]) > 100) {
+for (let pokemon of reader.data) {
+  if (parseInt(pokemon[hpEvIndex]) > 100) {
     bulkyPokemon++;
   }
-  if (parseInt(pokemon[atkEv]) > 100) {
+  if (parseInt(pokemon[atkEvIndex]) > 100) {
     attackPokemon++;
   }
-  if (parseInt(pokemon[spaEv]) > 100) {
+  if (parseInt(pokemon[spaEvIndex]) > 100) {
     specialPokemon++;
   }
-  if (parseInt(pokemon[defEv]) > 100) {
+  if (parseInt(pokemon[defEvIndex]) > 100) {
     defensivePokemon++;
   }
-  if (parseInt(pokemon[spdEv]) > 100) {
+  if (parseInt(pokemon[spdEvIndex]) > 100) {
     specialdefensePokemon++;
   }
-  if (parseInt(pokemon[speEv]) > 100) {
+  if (parseInt(pokemon[speEvIndex]) > 100) {
     speedyPokemon++;
   }
 }
